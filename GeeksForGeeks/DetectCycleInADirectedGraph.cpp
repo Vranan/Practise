@@ -49,13 +49,20 @@ bool Graph::isCyclic() {
 			
 		stack<int> st;
 		st.push(i);
+		vis[i] = true;
 		while(!st.empty()) {
 			int top = st.top();
+			cout << "top = " << top << endl;
 			st.pop();
 		
 			for (list<int>::iterator it = adj[top].begin(); it != adj[top].end(); it++) {
-				if (*it == i) return true;
+				cout << "i = " << i << "*it = " << *it << endl;
+				if (*it == i) {
+					cout << "*it = " << *it << "= i = " << i << ", return true" << endl;
+					return true;
+				}
 				else if (!vis[*it]){
+					cout << "vis[" *it << "] = " << vis[*it] << "st.push(" << *it << ")" << endl;
 					vis[*it] = true;
 					st.push(*it);
 				}
@@ -63,6 +70,7 @@ bool Graph::isCyclic() {
 			}
 		}
 	}
+	cout << "return false" << endl;
 	return false;
 }
 
