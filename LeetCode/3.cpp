@@ -3,7 +3,7 @@
 using namespace std;
 
 int StringCal(string s) {
-	int start = -1,maxL = 0;
+	int start = -1, maxL = 0;
 	vector<int> m(256,-1);
 	for (int i=0; i != s.length();i++) {
 		if (m[s[i]] > start)
