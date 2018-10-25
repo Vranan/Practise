@@ -132,6 +132,8 @@ void levelTraversal(TreeNode* root) {
 
 
 
+
+
 void char_xor(string s) {
 	
 	int l = s.length();
@@ -191,26 +193,81 @@ TreeNode* customTree() {
 	return root;
 }
 
+string solution2(string &S, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    if (S.length() == 1 && S[0] != '-') {
+    	S[0] = ((97 <= S[0] && S[0] <= 122) ? S[0]-32 : S[0]);
+    	return S;
+    }
+    else if (S.length() == 1 && S[0] == '-')
+    	return '\0';
+    	
+    string S2;
+    int c = 1;
+    for (int i = S.length()-1; i >= 0; i--) {
+        	if (S[i] != '-' && c == K) {
+        		S2 = (97 <= S[i] && S[i] <= 122) ? char((S[i]-32)) + S2 : S[i] + S2;
+        		S2 = (i >= K) ? '-' + S2 : S2;
+                c = 1;
+			} else if (S[i] != '-'  && c < K) {
+                S2 = (97 <= S[i] && S[i] <= 122) ? char(S[i]- 32) + S2 : S[i] + S2;
+                c++;
+            }
+    }
+    return S2;
+}
 
+
+vector<int> solution(vector<int> &stores, vector<int> &houses) {
+    // write your code in C++14 (g++ 6.2.0)
+    sort(stores.begin(), stores.end());
+    vector<int> res;
+    
+    
+    for (unsigned int i = 0; i < houses.size(); i++) {
+    	int sm = 0; int l = stores.size()-1; int mid = (sm+l)/2;
+    	int minI = mid;
+    	int house = houses[i];
+        while (l >= sm) {
+            mid = (sm+l)/2;
+            
+            if (stores[mid] == house) {
+                break;
+            } else if (stores[mid] > house){
+                l = mid-1;
+            } else if (stores[mid] < house) {
+                sm = mid+1;
+            }
+        }
+        
+        if (mid > stores.size()/2)
+        	mid--;
+        int comp1 = abs(stores[mid]-houses[i]); int comp2 = abs(stores[mid+1]-houses[i]);
+        
+        if (stores[mid] == house)
+        	res.push_back(stores[mid]);
+		else if (comp1 < comp2) 
+            res.push_back(stores[mid]);
+        else if (comp1 > comp2) 
+            res.push_back(stores[mid+1]);
+        
+        
+    }
+    return res;
+}
 
 int main() {
+
+	vector<int> stores{1,5,20,11,16};
+	vector<int> houses{5,10,17,20,9,0};
+	vector<int> result = solution(stores,houses);
+	itrVec(result);
 	
-//	vector<TreeNode*> myvec;
-//	vector<int> sortedNumbers{0,2,3,4,5,6,7,8,9};
-//	//gcd(110, 440);
-//	//char_xor("ab");
-//	//TreeNode* root = customTree();
-//	//levelTraversal(root);
-//	//myvec = ancestor_of_a_node(root, 4);
-//	//cout << "Ancestor of Node with value 4 - " << endl; 
-//	//itrVec(myvec);   // function overloading.
-//	string a = "leelee";
-//	string typed = "eeappl";
-//	int c = find(typed.end(), typed.begin(), 'e') - typed.begin();
-//	cout << c << endl;
-//	//bool c = isLongPressedName(a,b);
-//	//cout << c << endl;
 
 	return 0;
 }
 
+
+
+        //cout << "2. mid = " << mid << ", stores[mid] = " << stores[mid] << ", houses[i] = " << houses[i] << endl;
+        //cout << "comp1 = " << comp1 << ", comp2 = " << comp2<< endl; 
