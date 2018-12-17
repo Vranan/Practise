@@ -1,50 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//class <template> TYPE;
-
-int gcd(int x, int y) {
- vector<int> divisors; 
- vector<int> total; 
- 
- for (int i = 2; i <= x; i++) { 
- 	while (x%i == 0) { 
-	 	x /= i; 
-		divisors.push_back(x); 
-	} 
- }
- 
- for (int i = 2; i <= y; i++) {
- 	while (y%i == 0) { 
-	 	y /= i; 
-		for (int n : divisors) { 
-			if (y == n) { 
-				total.push_back(y); 
-			} 
-		} 
-	} 
- } 
- 
- for (int n : total) { 
- 	cout << n << endl; 
- }
- 
- return 0;
- } 
-
-/*int gcd(int x, int y) {
-		
-while (x != y) {
-	if (x > y)
-	      x -= y;
-	else
-	      y-=x;
-	cout << "GCD = " << x;
-	}
-	return x;
-}
-*/
-
 struct TreeNode {
      int val;
      TreeNode *left;
@@ -80,6 +36,8 @@ void itrVec(vector<int> vec) {
 	}
 	cout << endl;
 }
+
+
 
 void itrVec(vector<TreeNode*> vec) {
 	
@@ -171,103 +129,183 @@ vector<TreeNode*> ancestor_of_a_node(TreeNode* root, int v) {
 	return vec;
 }
 
-TreeNode* customTree() {
-	TreeNode* root = new TreeNode(6);
-	TreeNode* trav = root;
-	trav->left = new TreeNode(2);
-	trav->right = new TreeNode(8);
-	trav = trav->left;
-	trav->left = new TreeNode(0);
-	trav->right = new TreeNode(4);
-	trav = trav->right;
-	trav->left = new TreeNode(3);
-	trav->right = new TreeNode(5);
-	trav = root->right;
-	trav->left = new TreeNode(7);
-	trav->right = new TreeNode(9);
+ TreeNode* customTree() {
+	TreeNode* root = new TreeNode(1);
+	
+	root->left = new TreeNode(2);
+	root->right = new TreeNode(3);
+	
+	root->left->left = new TreeNode(4);
+	root->left->right = new TreeNode(5);
+	
+	root->right->left = new TreeNode(6);
+	root->right->right = new TreeNode(7);
+	
+	root->left->left->left = new TreeNode(8);
+	root->left->left->right = new TreeNode(9);
+	root->left->right->left = new TreeNode(10);
+	root->left->right->right = new TreeNode(11);
+	
+	root->right->left->left = new TreeNode(12);
+	root->right->left->right = new TreeNode(13);
+	root->right->right->left = new TreeNode(14);
+	root->right->right->right = new TreeNode(15);
 	
 	/*TreeNode* root = new TreeNode(2);
 	root->left = new TreeNode(1);*/
-	
-	
 	return root;
 }
+ 
 
-string solution2(string &S, int K) {
-    // write your code in C++14 (g++ 6.2.0)
-    if (S.length() == 1 && S[0] != '-') {
-    	S[0] = ((97 <= S[0] && S[0] <= 122) ? S[0]-32 : S[0]);
-    	return S;
-    }
-    else if (S.length() == 1 && S[0] == '-')
-    	return '\0';
-    	
-    string S2;
-    int c = 1;
-    for (int i = S.length()-1; i >= 0; i--) {
-        	if (S[i] != '-' && c == K) {
-        		S2 = (97 <= S[i] && S[i] <= 122) ? char((S[i]-32)) + S2 : S[i] + S2;
-        		S2 = (i >= K) ? '-' + S2 : S2;
-                c = 1;
-			} else if (S[i] != '-'  && c < K) {
-                S2 = (97 <= S[i] && S[i] <= 122) ? char(S[i]- 32) + S2 : S[i] + S2;
-                c++;
-            }
-    }
-    return S2;
+void printArray(int arr[], int n) {
+	int i;
+	for (i=0; i < n; i++)
+		printf("%d ", arr[i]);
+	printf("\n");
+}
+
+void insertionSort(int arr[], int n)
+{
+	int i, key, j;
+	cout << "n = " << n << endl;
+	for (i = 1; i < n; i++)
+	{
+		key = arr[i];
+		j = i-1;
+		
+		while (j >= 0 && arr[j] > key) {
+			arr[j+1] = arr[j];
+			printArray(arr,8);
+			j = j-1;
+		}
+		arr[j+1] = key;
+	}
 }
 
 
-vector<int> solution(vector<int> &stores, vector<int> &houses) {
-    // write your code in C++14 (g++ 6.2.0)
-    sort(stores.begin(), stores.end());
-    vector<int> res;
-    
-    
-    for (unsigned int i = 0; i < houses.size(); i++) {
-    	int sm = 0; int l = stores.size()-1; int mid = (sm+l)/2;
-    	int minI = mid;
-    	int house = houses[i];
-        while (l >= sm) {
-            mid = (sm+l)/2;
-            
-            if (stores[mid] == house) {
-                break;
-            } else if (stores[mid] > house){
-                l = mid-1;
-            } else if (stores[mid] < house) {
-                sm = mid+1;
-            }
-        }
-        
-        if (mid > stores.size()/2)
-        	mid--;
-        int comp1 = abs(stores[mid]-houses[i]); int comp2 = abs(stores[mid+1]-houses[i]);
-        
-        if (stores[mid] == house)
-        	res.push_back(stores[mid]);
-		else if (comp1 < comp2) 
-            res.push_back(stores[mid]);
-        else if (comp1 > comp2) 
-            res.push_back(stores[mid+1]);
-        
-        
-    }
-    return res;
+void insertion_sort(vector<int>& arr) {
+	cout << "Begin" << " --> ";
+	itrVec(arr);
+	cout << endl;
+	for (int i = 1; i < arr.size(); i++) {
+		int key = arr[i];
+		int j;
+		for (j = i-1; j >= 0; j--) {
+			if (arr[j] > key) {
+				int temp = arr[j];
+				arr[j] = arr[j+1];
+				arr[j+1] = temp;
+			}
+			
+		}
+		arr[j+1] = key;
+		itrVec(arr);
+	}
+	cout << "Final -- " << endl;
+	itrVec(arr);
 }
 
-int main() {
 
-	vector<int> stores{1,5,20,11,16};
-	vector<int> houses{5,10,17,20,9,0};
-	vector<int> result = solution(stores,houses);
-	itrVec(result);
+int getVolume(vector<int> A, bool isForward, int end, int boundary[]) {  
+	itrVec(A);
+	cout << "isForward = " << isForward << ", end = " << end << ", boundary = " << boundary << ", boundary[0] = " << boundary[0] << endl;
+    // skip zeros  
+   int cur = 0;  
+   if (end < 0) end = 0;
+   if (!isForward) cur = A.size() - 1;  
+   while (cur != end && A[cur] == 0) {  
+     cur += (isForward ? 1 : -1);  
+   }  
+   
+   cout << "cur = " << cur << endl;
+   
+   int vol = 0, newEnd = cur;  
+   for (int i=cur, tempSum=0; i!=end; i+=(isForward ? 1 : -1)) {  
+     if (A[i] >= A[newEnd]) {  
+       vol += tempSum;  
+       // reset  
+       tempSum = 0;  
+       newEnd = i;  
+     } else {  
+       tempSum += (A[newEnd] - A[i]);  
+     }  
+   }  
+   boundary[0] = newEnd;  
+   cout << "vol = " << vol << endl;
+   return vol;   
+ }  
+   
+int trap(vector<int>& A) {  
+   int *boundary = new int[1];  
+   int vol = getVolume(A, true, A.size(), boundary);
+   vol += getVolume(A, false, boundary[0]-1, boundary);  
+   return vol;  
+ } 
+
+void set_check() {
+	set<int> myset;
+	myset.insert(10);
+	myset.insert(10);
+	for (auto it : myset) {
+		cout << it << " ";
+	}
+	cout << endl;
+	for (int i = 0; i < 10; i++) {
+		if (i <= 5)
+			myset.insert(10);
+		
+		myset.insert(i);
+	}
+	for (auto it : myset) {
+		cout << it << " ";
+	}
+	cout << endl;
+	myset.erase(10);
+	for (auto it : myset) {
+		cout << it << " ";
+	}
 	
+}
 
+
+	
+int main() {
+	
+	/*vector<vector<int>> myvec;
+	
+	myvec.push_back(vector<int> {1});
+	myvec.push_back(vector<int> {2});
+	myvec.push_back(vector<int> {3});
+	int j = 0;
+	for (auto it = myvec.begin(); it != myvec.end(); it++) {
+		vector<int> t = (*it);
+		vector<int> temp{j+1,j+2,j+3};
+		temp.push_back(j+4);
+		t.push_back(j+1);
+		vector<int> t1 = t;
+		j++;
+		//temp.push_back(j++);
+		
+		myvec.push_back(temp);
+		myvec.push_back(t1);
+		if (j == 5)
+			break;
+	}
+	
+	itrVvec(myvec);
+	*/
+	
+	string a[10];
+	a[0] = "Apple";
+	a[1] = "Bat";
+	a[2] = "Cat";
+	a[3] = "Dog";
+	a[4] = "Elephant";
+	
+	auto it = find(begin(a), end(a), "Dog");
+	cout << *it << endl;
+	
 	return 0;
 }
 
 
-
-        //cout << "2. mid = " << mid << ", stores[mid] = " << stores[mid] << ", houses[i] = " << houses[i] << endl;
-        //cout << "comp1 = " << comp1 << ", comp2 = " << comp2<< endl; 
